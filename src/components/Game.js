@@ -3,9 +3,9 @@ import Board from './Board';
 import React from "react";
 import {calculateWinner} from "../helpers/calculateWinner";
 import { connect } from "react-redux";
-import {Set_Marks, Set_StepNumber, Set_Player} from "../redux/types";
+import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
 
-function Game( {marks, player, stepNumber, setMarks, setStepNumber, setPlayer} ) {
+function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} ) {
     const winner = calculateWinner(marks);
 
     function changeMark (position) {
@@ -21,9 +21,7 @@ function Game( {marks, player, stepNumber, setMarks, setStepNumber, setPlayer} )
     }
 
     function restart() {
-        setPlayer(1);
-        setMarks(Array(9).fill(""));
-        setStepNumber(0);
+        resetGame();
     }
 
     return (
@@ -50,27 +48,10 @@ function mapStateToProps(state) {
 
 function dispatchToProps(dispatch) {
     return {
-        setMarks: (marks) => {
-            dispatch(
-                {
-                    type: Set_Marks,
-                    payload: marks
-                });
-        },
-        setStepNumber: (stepNumber) => {
-            dispatch(
-                {
-                    type: Set_StepNumber,
-                    payload: stepNumber
-                });
-        },
-        setPlayer: (player) => {
-            dispatch(
-                {
-                    type: Set_Player,
-                    payload: player
-                });
-        },
+        resetGame: () => { dispatch(resetGame()) },
+        setMarks: (marks) => { dispatch(setMarks(marks)); },
+        setStepNumber: (stepNumber) => { dispatch(setStepNumber(stepNumber)) },
+        setPlayer: (player) => { dispatch(setPlayer(player)) },
     }
 }
 
