@@ -1,12 +1,11 @@
 import '../App.css';
 import Board from './Board';
-import React, {useState} from "react";
+import React from "react";
 import {calculateWinner} from "../helpers/calculateWinner";
+import { connect } from "react-redux";
+import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
 
-function Game() {
-    const [marks, setMarks] = useState(Array(9).fill(""));
-    const [stepNumber, setStepNumber] = useState(0);
-    const [player, setPlayer] = useState(1);
+function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} ) {
     const winner = calculateWinner(marks);
 
     function changeMark (position) {
@@ -17,19 +16,20 @@ function Game() {
 
         marksArray[position] = player === 1 ? "X" : "O";
         setMarks(marksArray);
-        const step = stepNumber + 1;
-        setStepNumber(step);
+        setStepNumber(stepNumber + 1);
         setPlayer(player === 1 ? 2 : 1);
     }
 
     function restart() {
-        setPlayer(1);
-        setMarks(Array(9).fill(""));
+        resetGame();
     }
 
     return (
         <div className="game">
             <Board marks={marks} changeMark={changeMark}/>
+            <div>
+                <p>Turn: {stepNumber}</p>
+            </div>
             <div>
                 <h3>{winner ? "Result: " + winner : "Next Player: " + player}</h3>
             </div>
@@ -38,4 +38,22 @@ function Game() {
     );
 }
 
-export default Game;
+function mapStateToProps(state) {
+    return {
+        marks: state.game.marks,
+        stepNumber: state.game.stepNumber,
+        player: state.game.player
+    }
+}
+
+function dispatchToProps(dispatch) {
+    return {
+        resetGame: () => { dispatch(resetGame()) },
+        setMarks: (marks) => { dispatch(setMarks(marks)); },
+        setStepNumber: (stepNumber) => { dispatch(setStepNumber(stepNumber)) },
+        setPlayer: (player) => { dispatch(setPlayer(player)) },
+    }
+}
+
+
+export default connect(mapStateToProps, dispatchToProps)(Game);
