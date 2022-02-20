@@ -1,12 +1,11 @@
 import '../App.css';
 import Board from './Board';
-import React, {useState} from "react";
+import React from "react";
 import {calculateWinner} from "../helpers/calculateWinner";
+import { connect } from "react-redux";
+import {Set_Marks, Set_StepNumber, Set_Player} from "../redux/types";
 
-function Game() {
-    const [marks, setMarks] = useState(Array(9).fill(""));
-    const [stepNumber, setStepNumber] = useState(0);
-    const [player, setPlayer] = useState(1);
+function Game( {marks, player, stepNumber, setMarks, setStepNumber, setPlayer} ) {
     const winner = calculateWinner(marks);
 
     function changeMark (position) {
@@ -17,19 +16,22 @@ function Game() {
 
         marksArray[position] = player === 1 ? "X" : "O";
         setMarks(marksArray);
-        const step = stepNumber + 1;
-        setStepNumber(step);
+        setStepNumber(stepNumber + 1);
         setPlayer(player === 1 ? 2 : 1);
     }
 
     function restart() {
         setPlayer(1);
         setMarks(Array(9).fill(""));
+        setStepNumber(0);
     }
 
     return (
         <div className="game">
             <Board marks={marks} changeMark={changeMark}/>
+            <div>
+                <p>Turn: {stepNumber}</p>
+            </div>
             <div>
                 <h3>{winner ? "Result: " + winner : "Next Player: " + player}</h3>
             </div>
@@ -38,4 +40,39 @@ function Game() {
     );
 }
 
-export default Game;
+function mapStateToProps(state) {
+    return {
+        marks: state.game.marks,
+        stepNumber: state.game.stepNumber,
+        player: state.game.player
+    }
+}
+
+function dispatchToProps(dispatch) {
+    return {
+        setMarks: (marks) => {
+            dispatch(
+                {
+                    type: Set_Marks,
+                    payload: marks
+                });
+        },
+        setStepNumber: (stepNumber) => {
+            dispatch(
+                {
+                    type: Set_StepNumber,
+                    payload: stepNumber
+                });
+        },
+        setPlayer: (player) => {
+            dispatch(
+                {
+                    type: Set_Player,
+                    payload: player
+                });
+        },
+    }
+}
+
+
+export default connect(mapStateToProps, dispatchToProps)(Game);
