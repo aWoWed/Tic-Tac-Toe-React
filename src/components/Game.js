@@ -1,6 +1,6 @@
 import '../App.css';
 import Board from './Board';
-import React from "react";
+import React, {useCallback} from "react";
 import {calculateWinner} from "../helpers/calculateWinner";
 import { connect } from "react-redux";
 import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
@@ -8,7 +8,7 @@ import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
 function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} ) {
     const winner = calculateWinner(marks);
 
-    function changeMark (position) {
+    const changeMark = useCallback((position) => {
         const marksArray = [...marks];
 
         if (winner || marks[position] !== "")
@@ -18,7 +18,7 @@ function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, s
         setMarks(marksArray);
         setStepNumber(stepNumber + 1);
         setPlayer(player === 1 ? 2 : 1);
-    }
+    }, [marks, player, stepNumber, winner]);
 
     function restart() {
         resetGame();

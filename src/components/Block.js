@@ -8,6 +8,6 @@ function Block(props) {
             {props.mark}
         </button>
     );
-};
+}
 
 export default Block;

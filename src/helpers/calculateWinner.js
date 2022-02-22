@@ -10,19 +10,16 @@ export function calculateWinner(marks) {
         [2, 4, 6],
     ]
 
-    let condition;
-
     for (let i = 0; i < winningPatterns.length; i++) {
         const [a, b, c] = winningPatterns[i];
-
-        condition = marks[a] && marks[a] === marks[b] && marks[a] === marks[c];
+        const condition = marks[a] && marks[a] === marks[b] && marks[a] === marks[c];
 
         if (condition) {
             return `Winner - player ${marks[a]}`;
         }
     }
 
-    if(!marks.includes("") && !condition){
+    if(!marks.includes("")){
         return "Draw";
     }
 
