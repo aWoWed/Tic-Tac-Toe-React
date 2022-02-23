@@ -19,7 +19,7 @@ export function calculateWinner(marks: Array<string>) {
         }
     }
 
-    if(!marks.includes("")){
+    if (!marks.includes("")) {
         return "Draw";
     }
 

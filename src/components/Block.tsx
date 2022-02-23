@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, {MouseEventHandler} from "react";
 import '../App.css';
 
 type Props = {

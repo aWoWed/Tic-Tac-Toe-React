@@ -1,9 +1,9 @@
 import '../App.css';
 import Board from './Board';
-import React, { useCallback } from "react";
-import { calculateWinner} from "../helpers/calculateWinner";
-import { connect } from "react-redux";
-import { RootState } from "../redux/rootReducer";
+import React, {useCallback} from "react";
+import {calculateWinner} from "../helpers/calculateWinner";
+import {connect} from "react-redux";
+import {RootState} from "../redux/rootReducer";
 import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
 
 interface IGameProps {
@@ -16,7 +16,7 @@ interface IGameProps {
     resetGame: () => any
 }
 
-function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} : IGameProps ) {
+function Game({resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer}: IGameProps) {
     const winner = calculateWinner(marks);
 
     const changeMark = useCallback((position: number) => {
@@ -25,10 +25,10 @@ function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, s
         if (winner || marks[position] !== "")
             return;
 
-        marksArray[position] = player === true ? "X" : "O";
+        marksArray[position] = player ? "X" : "O";
         setMarks(marksArray);
         setStepNumber(stepNumber + 1);
-        setPlayer(player === true ? false : true);
+        setPlayer(!player);
     }, [marks, player, stepNumber, winner]);
 
     function restart() {
@@ -59,10 +59,10 @@ function mapStateToProps(state: RootState) {
 
 function dispatchToProps(dispatch: any) {
     return {
-        resetGame: () => ( dispatch(resetGame()) ),
-        setMarks: (marks: Array<Mark>) => ( dispatch(setMarks(marks)) ),
-        setStepNumber: (stepNumber: number) => ( dispatch(setStepNumber(stepNumber)) ),
-        setPlayer: (player: boolean) => ( dispatch(setPlayer(player)) ),
+        resetGame: () => (dispatch(resetGame())),
+        setMarks: (marks: Array<Mark>) => (dispatch(setMarks(marks))),
+        setStepNumber: (stepNumber: number) => (dispatch(setStepNumber(stepNumber))),
+        setPlayer: (player: boolean) => (dispatch(setPlayer(player))),
     }
 }
 
