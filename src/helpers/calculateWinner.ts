@@ -1,4 +1,4 @@
-export function calculateWinner(marks) {
+export function calculateWinner(marks: Array<string>) {
     const winningPatterns = [
         [0, 1, 2],
         [3, 4, 5],

@@ -1,14 +1,15 @@
 import '../App.css';
 import Board from './Board';
-import React, {useCallback} from "react";
-import {calculateWinner} from "../helpers/calculateWinner";
+import React, { useCallback } from "react";
+import { calculateWinner} from "../helpers/calculateWinner";
 import { connect } from "react-redux";
+import { RootState } from "../redux/rootReducer";
 import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
 
-function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} ) {
+function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} : IGame ) {
     const winner = calculateWinner(marks);
 
-    const changeMark = useCallback((position) => {
+    const changeMark = useCallback((position: number) => {
         const marksArray = [...marks];
 
         if (winner || marks[position] !== "")
@@ -38,7 +39,7 @@ function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, s
     );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: RootState) {
     return {
         marks: state.game.marks,
         stepNumber: state.game.stepNumber,
@@ -46,14 +47,13 @@ function mapStateToProps(state) {
     }
 }
 
-function dispatchToProps(dispatch) {
+function dispatchToProps(dispatch: any) {
     return {
-        resetGame: () => { dispatch(resetGame()) },
-        setMarks: (marks) => { dispatch(setMarks(marks)); },
-        setStepNumber: (stepNumber) => { dispatch(setStepNumber(stepNumber)) },
-        setPlayer: (player) => { dispatch(setPlayer(player)) },
+        resetGame: () => ( dispatch(resetGame()) ),
+        setMarks: (marks: string[]) => ( dispatch(setMarks(marks)) ),
+        setStepNumber: (stepNumber: number) => ( dispatch(setStepNumber(stepNumber)) ),
+        setPlayer: (player: number) => ( dispatch(setPlayer(player)) ),
     }
 }
-
 
 export default connect(mapStateToProps, dispatchToProps)(Game);
