@@ -3,7 +3,7 @@ import '../App.css';
 
 type Props = {
     onClick: MouseEventHandler,
-    mark: string,
+    mark: Mark,
 }
 
 function Block(props: Props) {

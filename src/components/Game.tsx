@@ -6,7 +6,17 @@ import { connect } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import {resetGame, setMarks, setPlayer, setStepNumber} from "../redux/action";
 
-function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} : IGame ) {
+interface IGameProps {
+    marks: Array<Mark>,
+    stepNumber: number,
+    player: boolean,
+    setMarks: (marks: Array<Mark>) => any,
+    setStepNumber: (stepNumber: number) => any,
+    setPlayer: (player: boolean) => any,
+    resetGame: () => any
+}
+
+function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, setPlayer} : IGameProps ) {
     const winner = calculateWinner(marks);
 
     const changeMark = useCallback((position: number) => {
@@ -15,10 +25,10 @@ function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, s
         if (winner || marks[position] !== "")
             return;
 
-        marksArray[position] = player === 1 ? "X" : "O";
+        marksArray[position] = player === true ? "X" : "O";
         setMarks(marksArray);
         setStepNumber(stepNumber + 1);
-        setPlayer(player === 1 ? 2 : 1);
+        setPlayer(player === true ? false : true);
     }, [marks, player, stepNumber, winner]);
 
     function restart() {
@@ -32,7 +42,7 @@ function Game( {resetGame, marks, player, stepNumber, setMarks, setStepNumber, s
                 <p>Turn: {stepNumber}</p>
             </div>
             <div>
-                <h3>{winner ? "Result: " + winner : "Next Player: " + player}</h3>
+                <h3>{winner ? "Result: " + winner : "Next Player: " + (player ? "X" : "O")}</h3>
             </div>
             <button id="restart" className="restart-button" onClick={restart}>Restart</button>
         </div>
@@ -50,9 +60,9 @@ function mapStateToProps(state: RootState) {
 function dispatchToProps(dispatch: any) {
     return {
         resetGame: () => ( dispatch(resetGame()) ),
-        setMarks: (marks: string[]) => ( dispatch(setMarks(marks)) ),
+        setMarks: (marks: Array<Mark>) => ( dispatch(setMarks(marks)) ),
         setStepNumber: (stepNumber: number) => ( dispatch(setStepNumber(stepNumber)) ),
-        setPlayer: (player: number) => ( dispatch(setPlayer(player)) ),
+        setPlayer: (player: boolean) => ( dispatch(setPlayer(player)) ),
     }
 }
 

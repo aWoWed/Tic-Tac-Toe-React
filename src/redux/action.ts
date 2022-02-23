@@ -20,7 +20,7 @@ export function setStepNumber(stepNumber: number) {
     };
 }
 
-export function setPlayer(player: number) {
+export function setPlayer(player: boolean) {
     return {
         type: actionTypes.Set_Player,
         payload: player

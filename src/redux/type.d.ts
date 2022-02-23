@@ -1,12 +1,4 @@
-interface IGame {
-    marks: Array<string>,
-    stepNumber: number,
-    player: number,
-    setMarks: (marks: Array<string>) => any,
-    setStepNumber: (stepNumber: number) => any,
-    setPlayer: (player: number) => any,
-    resetGame: () => any
-}
+type Mark = "X" | "O" | "";
 
 enum GameActionTypes {
     Reset_Game = "Reset_Game",
@@ -21,7 +13,7 @@ interface ResetGameAction {
 
 interface SetMarksAction {
     type: GameActionTypes.Set_Marks,
-    payload: Array<string>
+    payload: Array<Mark>
 }
 
 interface SetStepNumberAction {
@@ -31,15 +23,13 @@ interface SetStepNumberAction {
 
 interface SetPlayerAction {
     type: GameActionTypes.Set_Player,
-    payload: number
+    payload: boolean
 }
 
 type GameAction = ResetGameAction | SetMarksAction | SetStepNumberAction | SetPlayerAction;
 
 type GameState = {
-    marks: Array<string>,
+    marks: Array<Mark>,
     stepNumber: number,
-    player: number,
+    player: boolean,
 }
-
-//type DispatchType = (args: GameAction) => Dispatch<GameAction>

@@ -3,14 +3,14 @@ import Block from './Block'
 
 interface Props {
     changeMark(index: number): void,
-    marks: Array<string>,
+    marks: Array<Mark>,
 }
 
 function Board(props: Props) {
     return(
         <div className="board">
             {
-                props.marks.map((element : string, index : number) => {
+                props.marks.map((element : Mark, index : number) => {
                     return <Block key={`${element}${index}`} mark={element} onClick={() => props.changeMark(index)}/>
                 })
             }

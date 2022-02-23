@@ -1,9 +1,9 @@
 import * as actionTypes  from "./types"
 
 const defaultState: GameState = {
-    marks: Array(9).fill(""),
+    marks: Array<Mark>(9).fill(""),
     stepNumber: 1,
-    player: 1,
+    player: true,
 }
 
 export const gameReducer = (state: GameState = defaultState, action: GameAction) => {
